@@ -23,8 +23,9 @@
   "Calculate the amount of bytes needed to encode a string."
   (declare (type string string)
            #'*optimize*)
-  (let ((length (length string))
-        (string (coerce string 'simple-string)))
+  (let* ((string (coerce string 'simple-string))
+         (length (length string)))
+    (declare (type fixnum length))
     (loop :for char :across string
           :do (let ((code (char-code char)))
                 (when (> code 127)
@@ -60,11 +61,11 @@ encoded form of that character."
 utf-8 representation."
   (declare (type string string)
            #.*optimize*)
-  (let ((buffer (make-array (+ (the fixnum (utf-8-byte-length string))
-                               (if null-terminate 1 0))
-                            :element-type '(unsigned-byte 8)))
-        (position 0)
-        (string (coerce string 'simple-string)))
+  (let* ((string (coerce string 'simple-string))
+         (buffer (make-array (+ (the fixnum (utf-8-byte-length string))
+                                (if null-terminate 1 0))
+                             :element-type '(unsigned-byte 8)))
+         (position 0))
     (declare (type (array (unsigned-byte 8)) buffer)
              (type fixnum position))
     (macrolet ((add-byte (byte)
@@ -102,26 +103,28 @@ utf-8 representation."
 starting with a given byte."
   (declare (type fixnum byte)
            #.*optimize*)
-  (cond ((zerop (logand byte #b10000000)) 1)
+  (cond ((not (logtest byte #b10000000)) 1)
         ((= (logand byte #b11100000) #b11000000) 2)
         ((= (logand byte #b11110000) #b11100000) 3)
         ((= (logand byte #b11111000) #b11110000) 4)
         (t (error 'utf-8-decoding-error :byte byte
                   :message "Invalid byte at start of character: 0x~X"))))
 
+(declaim (inline utf-8-string-length))
 (defun utf-8-string-length (bytes &key (start 0) (end (length bytes)))
   "Calculate the length of the string encoded by the given bytes."
   (declare (type (simple-array (unsigned-byte 8) (*)) bytes)
            (type fixnum start end)
            #.*optimize*)
   (loop :with i :of-type fixnum = start
-        :with string-length = 0
+        :with string-length :of-type fixnum = 0
         :while (< i end)
         :do (progn
               (incf (the fixnum string-length) 1)
               (incf i (utf-8-group-size (elt bytes i))))
         :finally (return string-length)))
 
+(declaim (inline get-utf-8-character))
 (defun get-utf-8-character (bytes group-size &optional (start 0))
   "Given an array of bytes and the amount of bytes to use,
 extract the character starting at the given start position."
