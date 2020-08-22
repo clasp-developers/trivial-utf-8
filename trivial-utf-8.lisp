@@ -22,7 +22,7 @@
 (defun utf-8-byte-length (string)
   "Calculate the amount of bytes needed to encode a string."
   (declare (type string string)
-           #'*optimize*)
+           #.*optimize*)
   (let* ((string (coerce string 'simple-string))
          (length (length string)))
     (declare (type fixnum length))
