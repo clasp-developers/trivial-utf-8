@@ -2,15 +2,24 @@
 ;;;
 ;;; See http://common-lisp.net/project/trivial-utf-8/
 
-(defpackage :trivial-utf-8
-  (:use :common-lisp)
-  (:export #:utf-8-byte-length
-           #:string-to-utf-8-bytes
-           #:write-utf-8-bytes
-           #:utf-8-group-size
-           #:utf-8-bytes-to-string
-           #:read-utf-8-string
-           #:utf-8-decoding-error))
+;;; This is is basically MGL-PAX:DEFINE-PACKAGE, but we don't want to
+;;; depend on it. The package variance stuff is because we export
+;;; documentation from the TRIVIAL-UTF-8/DOC system.
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (locally
+      (declare #+sbcl
+               (sb-ext:muffle-conditions sb-int:package-at-variance))
+    (handler-bind
+        (#+sbcl (sb-int:package-at-variance #'muffle-warning))
+      (defpackage :trivial-utf-8
+        (:use :common-lisp)
+        (:export #:utf-8-byte-length
+                 #:string-to-utf-8-bytes
+                 #:write-utf-8-bytes
+                 #:utf-8-group-size
+                 #:utf-8-bytes-to-string
+                 #:read-utf-8-string
+                 #:utf-8-decoding-error)))))
 
 (in-package :trivial-utf-8)
 
@@ -20,7 +29,7 @@
       (compilation-speed 0))))
 
 (defun utf-8-byte-length (string)
-  "Calculate the amount of bytes needed to encode a string."
+  "Calculate the amount of bytes needed to encode STRING."
   (declare (type string string)
            #.*optimize*)
   (let* ((string (coerce string 'simple-string))
@@ -36,8 +45,9 @@
     length))
 
 (defmacro as-utf-8-bytes (char writer)
-  "Given a character, calls the writer function for every byte in the
-encoded form of that character."
+  "Given the character CHAR, call the WRITER for every byte in the
+  UTF-8 encoded form of that character. WRITER may a function or a
+  macro."
   (let ((char-code (gensym)))
     `(let ((,char-code (char-code ,char)))
        (declare (type fixnum ,char-code))
@@ -57,8 +67,8 @@ encoded form of that character."
               (,writer (logior #b10000000 (ldb (byte 6 0) ,char-code))))))))
 
 (defun string-to-utf-8-bytes (string &key null-terminate)
-  "Convert a string into an array of unsigned bytes containing its
-utf-8 representation."
+  "Convert STRING into an array of unsigned bytes containing its UTF-8
+  representation. If NULL-TERMINATE, add an extra 0 byte at the end."
   (declare (type string string)
            #.*optimize*)
   (let* ((string (coerce string 'simple-string))
@@ -77,18 +87,19 @@ utf-8 representation."
       (setf (elt buffer (1- (length buffer))) 0))
     buffer))
 
-(defun write-utf-8-bytes (string output &key null-terminate)
-  "Write a string to a byte-stream, encoding it as utf-8."
+(defun write-utf-8-bytes (string byte-stream &key null-terminate)
+  "Write STRING to BYTE-STREAM, encoding it as UTF-8. If
+  NULL-TERMINATE, write an extra 0 byte at the end."
   (declare (type string string)
-           (type stream output)
+           (type stream byte-stream)
            #.*optimize*)
   (macrolet ((byte-out (byte)
-               `(write-byte ,byte output)))
+               `(write-byte ,byte byte-stream)))
     (let ((string (coerce string 'simple-string)))
       (loop :for char :across string
             :do (as-utf-8-bytes char byte-out))))
   (when null-terminate
-    (write-byte 0 output)))
+    (write-byte 0 byte-stream)))
 
 (define-condition utf-8-decoding-error (simple-error)
   ((message :initarg :message)
@@ -99,8 +110,8 @@ utf-8 representation."
 
 (declaim (inline utf-8-group-size))
 (defun utf-8-group-size (byte)
-  "Determine the amount of bytes that are part of the character
-starting with a given byte."
+  "Determine the amount of bytes that are part of the character whose
+  encoding starts with BYTE. May signal UTF-8-DECODING-ERROR."
   (declare (type fixnum byte)
            #.*optimize*)
   (cond ((not (logtest byte #b10000000)) 1)
@@ -112,7 +123,8 @@ starting with a given byte."
 
 (declaim (inline utf-8-string-length))
 (defun utf-8-string-length (bytes &key (start 0) (end (length bytes)))
-  "Calculate the length of the string encoded by the given bytes."
+  "Calculate the length of the string encoded by the subsequence of
+  the array of BYTES bounded by START and END."
   (declare (type (simple-array (unsigned-byte 8) (*)) bytes)
            (type fixnum start end)
            #.*optimize*)
@@ -126,8 +138,9 @@ starting with a given byte."
 
 (declaim (inline get-utf-8-character))
 (defun get-utf-8-character (bytes group-size &optional (start 0))
-  "Given an array of bytes and the amount of bytes to use,
-extract the character starting at the given start position."
+  "Extract the character from an array of BYTES encoded in GROUP-SIZE
+  number of bytes from the START position. May signal
+  UTF-8-DECODING-ERROR."
   (declare (type (simple-array (unsigned-byte 8) (*)) bytes)
            (type fixnum group-size start)
            #.*optimize*)
@@ -160,14 +173,18 @@ extract the character starting at the given start position."
                                 (ash (six-bits (next-byte)) 6)
                                 (six-bits (next-byte))) 65536)))))
 
-(defun utf-8-bytes-to-string (bytes-in &key (start 0) (end (length bytes-in)))
-  "Convert a byte array containing utf-8 encoded characters into
-the string it encodes." 
-  (declare (type vector bytes-in)
+(defun utf-8-bytes-to-string (bytes &key (start 0) (end (length bytes)))
+  "Convert the START, END subsequence of the array of BYTES containing
+  UTF-8 encoded characters to a STRING. The element type of BYTES may
+  be anything as long as it can be `COERCE`d into an `(UNSIGNED-BYTES
+  8)` array. May signal UTF-8-DECODING-ERROR."
+  (declare (type vector bytes)
            (type fixnum start end)
            #.*optimize*)
-  (loop :with bytes = (coerce bytes-in '(simple-array (unsigned-byte 8) (*)))
-        :with buffer = (make-string (utf-8-string-length bytes :start start :end end) :element-type 'character)
+  (loop :with bytes = (coerce bytes '(simple-array (unsigned-byte 8) (*)))
+        :with buffer = (make-string (utf-8-string-length bytes :start start
+                                                         :end end)
+                                    :element-type 'character)
         :with array-position :of-type fixnum = start
         :with string-position :of-type fixnum = 0
         :while (< array-position end)
@@ -177,20 +194,21 @@ the string it encodes."
                 (error 'utf-8-decoding-error
                        :message "Unfinished character at end of byte array."))
               (setf (char buffer string-position)
-                 (code-char (get-utf-8-character bytes current-group
-                                                 array-position)))
+                    (code-char (get-utf-8-character bytes current-group
+                                                    array-position)))
               (incf string-position 1)
               (incf array-position current-group))
         :finally (return buffer)))
 
 (defun read-utf-8-string (input &key null-terminated stop-at-eof
                           (char-length -1) (byte-length -1))
-  "Read utf-8 encoded data from a byte stream and construct a
-string with the characters found. When null-terminated is given
-it will stop reading at a null character, stop-at-eof tells it to
-stop at the end of file without raising an error, and the
-char-length and byte-length parameters can be used to specify the
-max amount of characters or bytes to read."
+  "Read UTF-8 encoded data from INPUT, a byte stream, and construct a
+  string with the characters found. When NULL-TERMINATED is given,
+  stop reading at a null character. If STOP-AT-EOF, then stop at
+  END-OF-FILE without raising an error. The CHAR-LENGTH and
+  BYTE-LENGTH parameters can be used to specify the max amount of
+  characters or bytes to read, where -1 means no limit. May signal
+  UTF-8-DECODING-ERROR."
   (declare (type stream input)
            (type fixnum byte-length char-length)
            #.*optimize*)
@@ -200,47 +218,27 @@ max amount of characters or bytes to read."
                             :adjustable t :fill-pointer 0)))
     (declare (type fixnum bytes-read))
     (loop
-       (when (or (and (/= -1 byte-length) (>= bytes-read byte-length))
-		 (and (/= -1 char-length) (= char-length (length string))))
-	 (return))
-       (let ((next-char (read-byte input (not stop-at-eof) :eof)))
-	 (when (or (eq next-char :eof)
-		   (and null-terminated (eq next-char 0)))
-	   (return))
-	 (let ((current-group (utf-8-group-size next-char)))
-	   (incf bytes-read current-group)
-	   (cond ((= current-group 1)
-		  (vector-push-extend (code-char next-char) string))
-		 (t
-		  (setf (elt buffer 0) next-char)
-		  (loop :for i :from 1 :below current-group
-		     :for next-char = (read-byte input nil :eof)
-		     :do (when (eq next-char :eof)
-			   (error 'utf-8-decoding-error
-				  :message "Unfinished character at end of input."))
-		     :do (setf (elt buffer i) next-char))
-		  (vector-push-extend (code-char (get-utf-8-character
-						  buffer current-group))
-				      string))))))
+      (when (or (and (/= -1 byte-length) (>= bytes-read byte-length))
+		(and (/= -1 char-length) (= char-length (length string))))
+	(return))
+      (let ((next-char (read-byte input (not stop-at-eof) :eof)))
+	(when (or (eq next-char :eof)
+		  (and null-terminated (eq next-char 0)))
+	  (return))
+	(let ((current-group (utf-8-group-size next-char)))
+	  (incf bytes-read current-group)
+	  (cond ((= current-group 1)
+		 (vector-push-extend (code-char next-char) string))
+		(t
+		 (setf (elt buffer 0) next-char)
+		 (loop :for i :from 1 :below current-group
+		       :for next-char = (read-byte input nil :eof)
+		       :do (when (eq next-char :eof)
+			     (error 'utf-8-decoding-error
+				    :message
+                                    "Unfinished character at end of input."))
+		       :do (setf (elt buffer i) next-char))
+		 (vector-push-extend (code-char (get-utf-8-character
+						 buffer current-group))
+				     string))))))
     string))
-
-;;; Copyright (c) Marijn Haverbeke
-;;;
-;;; This software is provided 'as-is', without any express or implied
-;;; warranty. In no event will the authors be held liable for any
-;;; damages arising from the use of this software.
-;;;
-;;; Permission is granted to anyone to use this software for any
-;;; purpose, including commercial applications, and to alter it and
-;;; redistribute it freely, subject to the following restrictions:
-;;;
-;;; 1. The origin of this software must not be misrepresented; you must
-;;;    not claim that you wrote the original software. If you use this
-;;;    software in a product, an acknowledgment in the product
-;;;    documentation would be appreciated but is not required.
-;;;
-;;; 2. Altered source versions must be plainly marked as such, and must
-;;;    not be misrepresented as being the original software.
-;;;
-;;; 3. This notice may not be removed or altered from any source
-;;;    distribution.
