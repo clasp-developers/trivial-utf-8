@@ -1,7 +1,7 @@
 # Trivial UTF-8 Manual
 
 ###### \[in package TRIVIAL-UTF-8\]
-## trivial-utf-8 ASDF System Details
+## TRIVIAL-UTF-8 ASDF System Details
 
 - Description: A small library for doing UTF-8-based input and output.
 - Licence: ZLIB

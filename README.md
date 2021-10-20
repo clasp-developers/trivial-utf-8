@@ -4,7 +4,7 @@
 
 ## Table of Contents
 
-- [1 trivial-utf-8 ASDF System Details][04d7]
+- [1 TRIVIAL-UTF-8 ASDF System Details][04d7]
 - [2 Introduction][13de]
 - [3 Links][38a6]
 - [4 Reference][843f]
@@ -12,7 +12,7 @@
 ###### \[in package TRIVIAL-UTF-8\]
 <a id='x-28-23A-28-2813-29-20BASE-CHAR-20-2E-20-22trivial-utf-8-22-29-20ASDF-2FSYSTEM-3ASYSTEM-29'></a>
 
-## 1 trivial-utf-8 ASDF System Details
+## 1 TRIVIAL-UTF-8 ASDF System Details
 
 - Description: A small library for doing UTF-8-based input and output.
 - Licence: ZLIB
