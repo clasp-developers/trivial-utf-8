@@ -175,9 +175,9 @@
 
 (defun utf-8-bytes-to-string (bytes &key (start 0) (end (length bytes)))
   "Convert the START, END subsequence of the array of BYTES containing
-  UTF-8 encoded characters to a STRING. The element type of BYTES may
-  be anything as long as it can be `COERCE`d into an `(UNSIGNED-BYTES
-  8)` array. May signal UTF-8-DECODING-ERROR."
+  UTF-8 encoded characters to a [STRING][type]. The element type of
+  BYTES may be anything as long as it can be `COERCE`d into
+  an `(UNSIGNED-BYTES 8)` array. May signal UTF-8-DECODING-ERROR."
   (declare (type vector bytes)
            (type fixnum start end)
            #.*optimize*)
