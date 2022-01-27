@@ -4,13 +4,13 @@
 
 ## Table of Contents
 
-- [1 TRIVIAL-UTF-8 ASDF System Details][04d7]
+- [1 TRIVIAL-UTF-8 ASDF System Details][09c0]
 - [2 Introduction][13de]
 - [3 Links][38a6]
 - [4 Reference][843f]
 
 ###### \[in package TRIVIAL-UTF-8\]
-<a id='x-28-23A-28-2813-29-20BASE-CHAR-20-2E-20-22trivial-utf-8-22-29-20ASDF-2FSYSTEM-3ASYSTEM-29'></a>
+<a id='x-28-22trivial-utf-8-22-20ASDF-2FSYSTEM-3ASYSTEM-29'></a>
 
 ## 1 TRIVIAL-UTF-8 ASDF System Details
 
@@ -105,7 +105,7 @@ Here is the [official repository][trivial-utf-8-repo] and the
 
 - [condition] **UTF-8-DECODING-ERROR** *SIMPLE-ERROR*
 
-  [04d7]: #x-28-23A-28-2813-29-20BASE-CHAR-20-2E-20-22trivial-utf-8-22-29-20ASDF-2FSYSTEM-3ASYSTEM-29 "(#A((13) BASE-CHAR . \"trivial-utf-8\") ASDF/SYSTEM:SYSTEM)"
+  [09c0]: #x-28-22trivial-utf-8-22-20ASDF-2FSYSTEM-3ASYSTEM-29 "(\"trivial-utf-8\" ASDF/SYSTEM:SYSTEM)"
   [13de]: #x-28TRIVIAL-UTF-8-3A-40TRIVIAL-UTF-8-INTRODUCTION-20MGL-PAX-3ASECTION-29 "Introduction"
   [2252]: http://www.lispworks.com/documentation/HyperSpec/Body/f_coerce.htm "(COERCE FUNCTION)"
   [36d1]: http://www.lispworks.com/documentation/HyperSpec/Body/e_end_of.htm "(END-OF-FILE CONDITION)"
