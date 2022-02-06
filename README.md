@@ -1,16 +1,18 @@
-<a id='x-28TRIVIAL-UTF-8-3A-40TRIVIAL-UTF-8-MANUAL-20MGL-PAX-3ASECTION-29'></a>
+<a id="x-28TRIVIAL-UTF-8-3A-40TRIVIAL-UTF-8-MANUAL-20MGL-PAX-3ASECTION-29"></a>
+<a id="TRIVIAL-UTF-8:@TRIVIAL-UTF-8-MANUAL%20MGL-PAX:SECTION"></a>
 
 # Trivial UTF-8 Manual
 
 ## Table of Contents
 
-- [1 TRIVIAL-UTF-8 ASDF System Details][09c0]
-- [2 Introduction][13de]
-- [3 Links][38a6]
-- [4 Reference][843f]
+- [1 TRIVIAL-UTF-8 ASDF System Details][d9f2]
+- [2 Introduction][e14a]
+- [3 Links][3c3e]
+- [4 Reference][a043]
 
 ###### \[in package TRIVIAL-UTF-8\]
-<a id='x-28-22trivial-utf-8-22-20ASDF-2FSYSTEM-3ASYSTEM-29'></a>
+<a id="x-28-22trivial-utf-8-22-20ASDF-2FSYSTEM-3ASYSTEM-29"></a>
+<a id="%22trivial-utf-8%22%20ASDF%2FSYSTEM:SYSTEM"></a>
 
 ## 1 TRIVIAL-UTF-8 ASDF System Details
 
@@ -22,13 +24,14 @@
 - Bug tracker: [https://gitlab.common-lisp.net/trivial-utf-8/trivial-utf-8/-/issues](https://gitlab.common-lisp.net/trivial-utf-8/trivial-utf-8/-/issues)
 - Source control: [GIT](https://gitlab.common-lisp.net/trivial-utf-8/trivial-utf-8.git)
 
-<a id='x-28TRIVIAL-UTF-8-3A-40TRIVIAL-UTF-8-INTRODUCTION-20MGL-PAX-3ASECTION-29'></a>
+<a id="x-28TRIVIAL-UTF-8-3A-40TRIVIAL-UTF-8-INTRODUCTION-20MGL-PAX-3ASECTION-29"></a>
+<a id="TRIVIAL-UTF-8:@TRIVIAL-UTF-8-INTRODUCTION%20MGL-PAX:SECTION"></a>
 
 ## 2 Introduction
 
 Trivial UTF-8 is a small library for doing UTF-8-based in- and
 output on a Lisp implementation that already supports Unicode -
-meaning [`CHAR-CODE`][d1b4] and [`CODE-CHAR`][f0fb] deal with Unicode character codes.
+meaning [`CHAR-CODE`][7e2c] and [`CODE-CHAR`][d796] deal with Unicode character codes.
 
 The rationale for the existence of this library is that while
 Unicode-enabled implementations usually do provide some kind of
@@ -44,7 +47,8 @@ on any other libraries.
 [babel]: https://common-lisp.net/project/babel/ 
 
 
-<a id='x-28TRIVIAL-UTF-8-3A-40TRIVIAL-UTF-8-LINKS-20MGL-PAX-3ASECTION-29'></a>
+<a id="x-28TRIVIAL-UTF-8-3A-40TRIVIAL-UTF-8-LINKS-20MGL-PAX-3ASECTION-29"></a>
+<a id="TRIVIAL-UTF-8:@TRIVIAL-UTF-8-LINKS%20MGL-PAX:SECTION"></a>
 
 ## 3 Links
 
@@ -56,65 +60,72 @@ Here is the [official repository][trivial-utf-8-repo] and the
 [trivial-utf-8-doc]: http://melisgl.github.io/mgl-pax-world/trivial-utf-8-manual.html 
 
 
-<a id='x-28TRIVIAL-UTF-8-3A-40TRIVIAL-UTF-8-REFERENCE-20MGL-PAX-3ASECTION-29'></a>
+<a id="x-28TRIVIAL-UTF-8-3A-40TRIVIAL-UTF-8-REFERENCE-20MGL-PAX-3ASECTION-29"></a>
+<a id="TRIVIAL-UTF-8:@TRIVIAL-UTF-8-REFERENCE%20MGL-PAX:SECTION"></a>
 
 ## 4 Reference
 
-<a id='x-28TRIVIAL-UTF-8-3AUTF-8-BYTE-LENGTH-20FUNCTION-29'></a>
+<a id="x-28TRIVIAL-UTF-8-3AUTF-8-BYTE-LENGTH-20FUNCTION-29"></a>
+<a id="TRIVIAL-UTF-8:UTF-8-BYTE-LENGTH%20FUNCTION"></a>
 
 - [function] **UTF-8-BYTE-LENGTH** *STRING*
 
     Calculate the amount of bytes needed to encode `STRING`.
 
-<a id='x-28TRIVIAL-UTF-8-3ASTRING-TO-UTF-8-BYTES-20FUNCTION-29'></a>
+<a id="x-28TRIVIAL-UTF-8-3ASTRING-TO-UTF-8-BYTES-20FUNCTION-29"></a>
+<a id="TRIVIAL-UTF-8:STRING-TO-UTF-8-BYTES%20FUNCTION"></a>
 
 - [function] **STRING-TO-UTF-8-BYTES** *STRING &KEY NULL-TERMINATE*
 
     Convert `STRING` into an array of unsigned bytes containing its UTF-8
     representation. If `NULL-TERMINATE`, add an extra 0 byte at the end.
 
-<a id='x-28TRIVIAL-UTF-8-3AUTF-8-GROUP-SIZE-20FUNCTION-29'></a>
+<a id="x-28TRIVIAL-UTF-8-3AUTF-8-GROUP-SIZE-20FUNCTION-29"></a>
+<a id="TRIVIAL-UTF-8:UTF-8-GROUP-SIZE%20FUNCTION"></a>
 
 - [function] **UTF-8-GROUP-SIZE** *BYTE*
 
     Determine the amount of bytes that are part of the character whose
-    encoding starts with `BYTE`. May signal [`UTF-8-DECODING-ERROR`][3993].
+    encoding starts with `BYTE`. May signal [`UTF-8-DECODING-ERROR`][ad1e].
 
-<a id='x-28TRIVIAL-UTF-8-3AUTF-8-BYTES-TO-STRING-20FUNCTION-29'></a>
+<a id="x-28TRIVIAL-UTF-8-3AUTF-8-BYTES-TO-STRING-20FUNCTION-29"></a>
+<a id="TRIVIAL-UTF-8:UTF-8-BYTES-TO-STRING%20FUNCTION"></a>
 
 - [function] **UTF-8-BYTES-TO-STRING** *BYTES &KEY (START 0) (END (LENGTH BYTES))*
 
     Convert the `START`, `END` subsequence of the array of `BYTES` containing
-    UTF-8 encoded characters to a [`STRING`][3b21]. The element type of
-    `BYTES` may be anything as long as it can be [`COERCE`][2252]d into
-    an `(UNSIGNED-BYTES 8)` array. May signal [`UTF-8-DECODING-ERROR`][3993].
+    UTF-8 encoded characters to a [`STRING`][4267]. The element type of
+    `BYTES` may be anything as long as it can be [`COERCE`][7959]d into
+    an `(UNSIGNED-BYTES 8)` array. May signal [`UTF-8-DECODING-ERROR`][ad1e].
 
-<a id='x-28TRIVIAL-UTF-8-3AREAD-UTF-8-STRING-20FUNCTION-29'></a>
+<a id="x-28TRIVIAL-UTF-8-3AREAD-UTF-8-STRING-20FUNCTION-29"></a>
+<a id="TRIVIAL-UTF-8:READ-UTF-8-STRING%20FUNCTION"></a>
 
 - [function] **READ-UTF-8-STRING** *INPUT &KEY NULL-TERMINATED STOP-AT-EOF (CHAR-LENGTH -1) (BYTE-LENGTH -1)*
 
     Read UTF-8 encoded data from `INPUT`, a byte stream, and construct a
     string with the characters found. When `NULL-TERMINATED` is given,
     stop reading at a null character. If `STOP-AT-EOF`, then stop at
-    [`END-OF-FILE`][36d1] without raising an error. The `CHAR-LENGTH` and
+    [`END-OF-FILE`][cc17] without raising an error. The `CHAR-LENGTH` and
     `BYTE-LENGTH` parameters can be used to specify the max amount of
     characters or bytes to read, where -1 means no limit. May signal
-    [`UTF-8-DECODING-ERROR`][3993].
+    [`UTF-8-DECODING-ERROR`][ad1e].
 
-<a id='x-28TRIVIAL-UTF-8-3AUTF-8-DECODING-ERROR-20CONDITION-29'></a>
+<a id="x-28TRIVIAL-UTF-8-3AUTF-8-DECODING-ERROR-20CONDITION-29"></a>
+<a id="TRIVIAL-UTF-8:UTF-8-DECODING-ERROR%20CONDITION"></a>
 
 - [condition] **UTF-8-DECODING-ERROR** *SIMPLE-ERROR*
 
-  [09c0]: #x-28-22trivial-utf-8-22-20ASDF-2FSYSTEM-3ASYSTEM-29 "(\"trivial-utf-8\" ASDF/SYSTEM:SYSTEM)"
-  [13de]: #x-28TRIVIAL-UTF-8-3A-40TRIVIAL-UTF-8-INTRODUCTION-20MGL-PAX-3ASECTION-29 "Introduction"
-  [2252]: http://www.lispworks.com/documentation/HyperSpec/Body/f_coerce.htm "(COERCE FUNCTION)"
-  [36d1]: http://www.lispworks.com/documentation/HyperSpec/Body/e_end_of.htm "(END-OF-FILE CONDITION)"
-  [38a6]: #x-28TRIVIAL-UTF-8-3A-40TRIVIAL-UTF-8-LINKS-20MGL-PAX-3ASECTION-29 "Links"
-  [3993]: #x-28TRIVIAL-UTF-8-3AUTF-8-DECODING-ERROR-20CONDITION-29 "(TRIVIAL-UTF-8:UTF-8-DECODING-ERROR CONDITION)"
-  [3b21]: http://www.lispworks.com/documentation/HyperSpec/Body/t_string.htm "(STRING TYPE)"
-  [843f]: #x-28TRIVIAL-UTF-8-3A-40TRIVIAL-UTF-8-REFERENCE-20MGL-PAX-3ASECTION-29 "Reference"
-  [d1b4]: http://www.lispworks.com/documentation/HyperSpec/Body/f_char_c.htm "(CHAR-CODE FUNCTION)"
-  [f0fb]: http://www.lispworks.com/documentation/HyperSpec/Body/f_code_c.htm "(CODE-CHAR FUNCTION)"
+  [3c3e]: #TRIVIAL-UTF-8:@TRIVIAL-UTF-8-LINKS%20MGL-PAX:SECTION "Links"
+  [4267]: http://www.lispworks.com/documentation/HyperSpec/Body/t_string.htm "STRING TYPE"
+  [7959]: http://www.lispworks.com/documentation/HyperSpec/Body/f_coerce.htm "COERCE FUNCTION"
+  [7e2c]: http://www.lispworks.com/documentation/HyperSpec/Body/f_char_c.htm "CHAR-CODE FUNCTION"
+  [a043]: #TRIVIAL-UTF-8:@TRIVIAL-UTF-8-REFERENCE%20MGL-PAX:SECTION "Reference"
+  [ad1e]: #TRIVIAL-UTF-8:UTF-8-DECODING-ERROR%20CONDITION "TRIVIAL-UTF-8:UTF-8-DECODING-ERROR CONDITION"
+  [cc17]: http://www.lispworks.com/documentation/HyperSpec/Body/e_end_of.htm "END-OF-FILE CONDITION"
+  [d796]: http://www.lispworks.com/documentation/HyperSpec/Body/f_code_c.htm "CODE-CHAR FUNCTION"
+  [d9f2]: #%22trivial-utf-8%22%20ASDF%2FSYSTEM:SYSTEM '"trivial-utf-8" ASDF/SYSTEM:SYSTEM'
+  [e14a]: #TRIVIAL-UTF-8:@TRIVIAL-UTF-8-INTRODUCTION%20MGL-PAX:SECTION "Introduction"
 
 * * *
 ###### \[generated by [MGL-PAX](https://github.com/melisgl/mgl-pax)\]
