@@ -55,6 +55,6 @@
 
 #+nil
 (progn
-  (update-asdf-system-readmes @trivial-utf-8-manual :trivial-utf-8)
-  (update-asdf-system-html-docs @trivial-utf-8-manual :trivial-utf-8
-                                :pages (pax-pages)))
+  (pax:update-asdf-system-readmes @trivial-utf-8-manual :trivial-utf-8)
+  (pax:update-asdf-system-html-docs @trivial-utf-8-manual :trivial-utf-8
+                                    :pages (pax-pages)))
