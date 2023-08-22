@@ -1,27 +1,46 @@
-;;; Minimal utf-8 decoding and encoding library.
-;;;
-;;; See http://common-lisp.net/project/trivial-utf-8/
-
-;;; This is is basically MGL-PAX:DEFINE-PACKAGE, but we don't want to
-;;; depend on it. The package variance stuff is because we export
-;;; documentation from the TRIVIAL-UTF-8/DOC system.
-(eval-when (:compile-toplevel :load-toplevel :execute)
-  (locally
-      (declare #+sbcl
-               (sb-ext:muffle-conditions sb-int:package-at-variance))
-    (handler-bind
-        (#+sbcl (sb-int:package-at-variance #'muffle-warning))
-      (defpackage :trivial-utf-8
-        (:use :common-lisp)
-        (:export #:utf-8-byte-length
-                 #:string-to-utf-8-bytes
-                 #:write-utf-8-bytes
-                 #:utf-8-group-size
-                 #:utf-8-bytes-to-string
-                 #:read-utf-8-string
-                 #:utf-8-decoding-error)))))
+(pax:define-package :trivial-utf-8
+  (:use :common-lisp))
 
 (in-package :trivial-utf-8)
+
+(pax:defsection @trivial-utf-8-manual (:title "Trivial UTF-8 Manual")
+  (trivial-utf-8 asdf:system)
+  (@trivial-utf-8-introduction pax:section)
+  (@trivial-utf-8-links pax:section)
+  (@trivial-utf-8-reference pax:section))
+
+(pax:defsection @trivial-utf-8-introduction (:title "Introduction")
+  "Trivial UTF-8 is a small library for doing UTF-8-based in- and
+  output on a Lisp implementation that already supports Unicode -
+  meaning CHAR-CODE and CODE-CHAR deal with Unicode character codes.
+
+  The rationale for the existence of this library is that while
+  Unicode-enabled implementations usually do provide some kind of
+  interface to dealing with character encodings, these are typically
+  not terribly flexible or uniform.
+
+  The [Babel][babel] library solves a similar problem while
+  understanding more encodings. Trivial UTF-8 was written before Babel
+  existed, but for new projects you might be better off going with
+  Babel. The one plus that Trivial UTF-8 has is that it doesn't depend
+  on any other libraries.
+
+    [babel]: https://common-lisp.net/project/babel/")
+
+(pax:defsection @trivial-utf-8-links (:title "Links")
+  "Here is the [official repository][trivial-utf-8-repo] and the
+  [HTML documentation][trivial-utf-8-doc] for the latest version.
+
+    [trivial-utf-8-repo]: https://gitlab.common-lisp.net/trivial-utf-8/trivial-utf-8
+    [trivial-utf-8-doc]: http://melisgl.github.io/mgl-pax-world/trivial-utf-8-manual.html")
+
+(pax:defsection @trivial-utf-8-reference (:title "Reference")
+  (utf-8-byte-length function)
+  (string-to-utf-8-bytes function)
+  (utf-8-group-size function)
+  (utf-8-bytes-to-string function)
+  (read-utf-8-string function)
+  (utf-8-decoding-error condition))
 
 (eval-when (:compile-toplevel :load-toplevel :execute)
   (defparameter *optimize*
@@ -242,3 +261,23 @@
 						 buffer current-group))
 				     string))))))
     string))
+
+
+;;;; Register in PAX World
+
+(defun pax-sections ()
+  (list @trivial-utf-8-manual))
+(defun pax-pages ()
+  `((:objects
+     (, @trivial-utf-8-manual)
+     :source-uri-fn
+     ,(pax:make-github-source-uri-fn
+       :trivial-utf-8
+       "https://gitlab.common-lisp.net/trivial-utf-8/trivial-utf-8/-/"))))
+(pax:register-doc-in-pax-world :trivial-utf-8 'pax-sections 'pax-pages)
+
+#+nil
+(progn
+  (pax:update-asdf-system-readmes @trivial-utf-8-manual :trivial-utf-8)
+  (pax:update-asdf-system-html-docs @trivial-utf-8-manual :trivial-utf-8
+                                    :pages (pax-pages)))
