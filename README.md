@@ -35,7 +35,7 @@ Unicode-enabled implementations usually do provide some kind of
 interface to dealing with character encodings, these are typically
 not terribly flexible or uniform.
 
-The Babel library solves a similar problem while
+The [Babel][babel] library solves a similar problem while
 understanding more encodings. Trivial UTF-8 was written before Babel
 existed, but for new projects you might be better off going with
 Babel. The one plus that Trivial UTF-8 has is that it doesn't depend
