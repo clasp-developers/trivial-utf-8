@@ -4,27 +4,26 @@
 
 ## Table of Contents
 
-- [1 The trivial-utf-8 ASDF System][d9f2]
-- [2 Introduction][e14a]
-- [3 Links][3c3e]
-- [4 Reference][a043]
+- [1 Introduction][e14a]
+- [2 Links][3c3e]
+- [3 Reference][a043]
 
 ###### \[in package TRIVIAL-UTF-8\]
 <a id="x-28-22trivial-utf-8-22-20ASDF-2FSYSTEM-3ASYSTEM-29"></a>
 
-## 1 The trivial-utf-8 ASDF System
-
-- Description: A small library for doing UTF-8-based input and output.
-- Licence: ZLIB
-- Author: Marijn Haverbeke <marijnh@gmail.com>
-- Maintainer: Gábor Melis <mega@retes.hu>
-- Homepage: [https://common-lisp.net/project/trivial-utf-8/](https://common-lisp.net/project/trivial-utf-8/)
-- Bug tracker: [https://gitlab.common-lisp.net/trivial-utf-8/trivial-utf-8/-/issues](https://gitlab.common-lisp.net/trivial-utf-8/trivial-utf-8/-/issues)
-- Source control: [GIT](https://gitlab.common-lisp.net/trivial-utf-8/trivial-utf-8.git)
+- [system] **"trivial-utf-8"**
+    - Description: A small library for doing UTF-8-based input and output.
+    - Licence: ZLIB
+    - Author: Marijn Haverbeke <marijnh@gmail.com>
+    - Maintainer: Gábor Melis <mega@retes.hu>
+    - Homepage: [https://common-lisp.net/project/trivial-utf-8/](https://common-lisp.net/project/trivial-utf-8/)
+    - Bug tracker: [https://gitlab.common-lisp.net/trivial-utf-8/trivial-utf-8/-/issues](https://gitlab.common-lisp.net/trivial-utf-8/trivial-utf-8/-/issues)
+    - Source control: [GIT](https://gitlab.common-lisp.net/trivial-utf-8/trivial-utf-8.git)
+    - Depends on: mgl-pax-bootstrap
 
 <a id="x-28TRIVIAL-UTF-8-3A-40TRIVIAL-UTF-8-INTRODUCTION-20MGL-PAX-3ASECTION-29"></a>
 
-## 2 Introduction
+## 1 Introduction
 
 Trivial UTF-8 is a small library for doing UTF-8-based in- and
 output on a Lisp implementation that already supports Unicode -
@@ -46,7 +45,7 @@ on any other libraries.
 
 <a id="x-28TRIVIAL-UTF-8-3A-40TRIVIAL-UTF-8-LINKS-20MGL-PAX-3ASECTION-29"></a>
 
-## 3 Links
+## 2 Links
 
 Here is the [official repository][trivial-utf-8-repo] and the
 [HTML documentation][trivial-utf-8-doc] for the latest version.
@@ -58,7 +57,7 @@ Here is the [official repository][trivial-utf-8-repo] and the
 
 <a id="x-28TRIVIAL-UTF-8-3A-40TRIVIAL-UTF-8-REFERENCE-20MGL-PAX-3ASECTION-29"></a>
 
-## 4 Reference
+## 3 Reference
 
 <a id="x-28TRIVIAL-UTF-8-3AUTF-8-BYTE-LENGTH-20FUNCTION-29"></a>
 
@@ -113,7 +112,6 @@ Here is the [official repository][trivial-utf-8-repo] and the
   [ad1e]: #x-28TRIVIAL-UTF-8-3AUTF-8-DECODING-ERROR-20CONDITION-29 "TRIVIAL-UTF-8:UTF-8-DECODING-ERROR CONDITION"
   [b93c]: http://www.lispworks.com/documentation/HyperSpec/Body/t_string.htm "STRING (MGL-PAX:CLHS CLASS)"
   [cac1]: http://www.lispworks.com/documentation/HyperSpec/Body/e_smp_er.htm "SIMPLE-ERROR (MGL-PAX:CLHS CONDITION)"
-  [d9f2]: #x-28-22trivial-utf-8-22-20ASDF-2FSYSTEM-3ASYSTEM-29 '"trivial-utf-8" ASDF/SYSTEM:SYSTEM'
   [e14a]: #x-28TRIVIAL-UTF-8-3A-40TRIVIAL-UTF-8-INTRODUCTION-20MGL-PAX-3ASECTION-29 "Introduction"
   [fe09]: http://www.lispworks.com/documentation/HyperSpec/Body/e_end_of.htm "END-OF-FILE (MGL-PAX:CLHS CONDITION)"
 
