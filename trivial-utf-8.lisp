@@ -4,12 +4,11 @@
 (in-package :trivial-utf-8)
 
 (pax:defsection @trivial-utf-8-manual (:title "Trivial UTF-8 Manual")
-  (trivial-utf-8 asdf:system)
-  (@trivial-utf-8-introduction pax:section)
-  (@trivial-utf-8-links pax:section)
-  (@trivial-utf-8-reference pax:section))
+  (@introduction pax:section)
+  (@links-and-systems pax:section)
+  (@reference pax:section))
 
-(pax:defsection @trivial-utf-8-introduction (:title "Introduction")
+(pax:defsection @introduction (:title "Introduction")
   "Trivial UTF-8 is a small library for doing UTF-8-based in- and
   output on a Lisp implementation that already supports Unicode -
   meaning CHAR-CODE and CODE-CHAR deal with Unicode character codes.
@@ -27,14 +26,15 @@
 
     [babel]: https://common-lisp.net/project/babel/")
 
-(pax:defsection @trivial-utf-8-links (:title "Links")
+(pax:defsection @links-and-systems (:title "Links and Systems")
   "Here is the [official repository][trivial-utf-8-repo] and the
   [HTML documentation][trivial-utf-8-doc] for the latest version.
 
     [trivial-utf-8-repo]: https://gitlab.common-lisp.net/trivial-utf-8/trivial-utf-8
-    [trivial-utf-8-doc]: http://melisgl.github.io/mgl-pax-world/trivial-utf-8-manual.html")
+    [trivial-utf-8-doc]: http://melisgl.github.io/mgl-pax-world/trivial-utf-8-manual.html"
+  (trivial-utf-8 asdf:system))
 
-(pax:defsection @trivial-utf-8-reference (:title "Reference")
+(pax:defsection @reference (:title "Reference")
   (utf-8-byte-length function)
   (string-to-utf-8-bytes function)
   (utf-8-group-size function)
