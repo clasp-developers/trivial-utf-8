@@ -40,6 +40,7 @@
   (utf-8-group-size function)
   (utf-8-bytes-to-string function)
   (read-utf-8-string function)
+  (write-utf-8-bytes function)
   (utf-8-decoding-error condition))
 
 (eval-when (:compile-toplevel :load-toplevel :execute)

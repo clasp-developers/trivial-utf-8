@@ -46,6 +46,7 @@ Here is the [official repository][trivial-utf-8-repo] and the
 <a id="x-28-22trivial-utf-8-22-20ASDF-2FSYSTEM-3ASYSTEM-29"></a>
 
 - [system] **"trivial-utf-8"**
+
     - _Description:_ A small library for doing UTF-8-based input and output.
     - _Licence:_ ZLIB
     - _Author:_ Marijn Haverbeke <marijnh@gmail.com>
@@ -99,6 +100,13 @@ Here is the [official repository][trivial-utf-8-repo] and the
     `BYTE-LENGTH` parameters can be used to specify the max amount of
     characters or bytes to read, where -1 means no limit. May signal
     [`UTF-8-DECODING-ERROR`][ad1e].
+
+<a id="x-28TRIVIAL-UTF-8-3AWRITE-UTF-8-BYTES-20FUNCTION-29"></a>
+
+- [function] **WRITE-UTF-8-BYTES** *STRING BYTE-STREAM &KEY NULL-TERMINATE*
+
+    Write `STRING` to `BYTE-STREAM`, encoding it as UTF-8. If
+    `NULL-TERMINATE`, write an extra 0 byte at the end.
 
 <a id="x-28TRIVIAL-UTF-8-3AUTF-8-DECODING-ERROR-20CONDITION-29"></a>
 
