@@ -268,13 +268,15 @@
 
 (defun pax-sections ()
   (list @trivial-utf-8-manual))
+
 (defun pax-pages ()
   `((:objects
      (, @trivial-utf-8-manual)
      :source-uri-fn
      ,(pax:make-github-source-uri-fn
        :trivial-utf-8
-       "https://gitlab.common-lisp.net/trivial-utf-8/trivial-utf-8/-/"))))
+       "https://gitlab.common-lisp.net/trivial-utf-8/trivial-utf-8/-"))))
+
 (pax:register-doc-in-pax-world :trivial-utf-8 'pax-sections 'pax-pages)
 
 #+nil
