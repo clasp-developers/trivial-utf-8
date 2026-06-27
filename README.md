@@ -51,8 +51,8 @@ Here is the [official repository][trivial-utf-8-repo] and the
     - _Licence:_ ZLIB
     - _Author:_ Marijn Haverbeke <marijnh@gmail.com>
     - _Maintainer:_ Gábor Melis <mega@retes.hu>
-    - _Homepage:_ [https://common-lisp.net/project/trivial-utf-8/](https://common-lisp.net/project/trivial-utf-8/)
-    - _Bug tracker:_ [https://gitlab.common-lisp.net/trivial-utf-8/trivial-utf-8/-/issues](https://gitlab.common-lisp.net/trivial-utf-8/trivial-utf-8/-/issues)
+    - _Homepage:_ <https://common-lisp.net/project/trivial-utf-8/>
+    - _Bug tracker:_ <https://gitlab.common-lisp.net/trivial-utf-8/trivial-utf-8/-/issues>
     - _Source control:_ [GIT](https://gitlab.common-lisp.net/trivial-utf-8/trivial-utf-8.git)
     - *Depends on:* mgl-pax-bootstrap
 
