@@ -27,11 +27,10 @@
     [babel]: https://common-lisp.net/project/babel/")
 
 (pax:defsection @links-and-systems (:title "Links and Systems")
-  "Here is the [official repository][trivial-utf-8-repo] and the
-  [HTML documentation][trivial-utf-8-doc] for the latest version.
-
-    [trivial-utf-8-repo]: https://gitlab.common-lisp.net/trivial-utf-8/trivial-utf-8
-    [trivial-utf-8-doc]: http://melisgl.github.io/mgl-pax-world/trivial-utf-8-manual.html"
+  "The official repository is
+  <https://gitlab.common-lisp.net/trivial-utf-8/trivial-utf-8>, and
+  this document in available in various formats on
+  <https://fixnum.com> for the latest version."
   (trivial-utf-8 asdf:system))
 
 (pax:defsection @reference (:title "Reference")
