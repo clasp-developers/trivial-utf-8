@@ -29,7 +29,7 @@
 (pax:defsection @links-and-systems (:title "Links and Systems")
   "The official repository is
   <https://gitlab.common-lisp.net/trivial-utf-8/trivial-utf-8>, and
-  this document in available in various formats on
+  this document is available in various formats on
   <https://fixnum.com> for the latest version."
   (trivial-utf-8 asdf:system))
 
@@ -198,26 +198,26 @@
   BYTES may be anything as long as it can be `COERCE`d into
   an `(UNSIGNED-BYTES 8)` array. May signal UTF-8-DECODING-ERROR."
   (declare (type vector bytes)
-           (type fixnum start end)
-           #.*optimize*)
-  (loop :with bytes = (coerce bytes '(simple-array (unsigned-byte 8) (*)))
-        :with buffer = (make-string (utf-8-string-length bytes :start start
-                                                         :end end)
-                                    :element-type 'character)
-        :with array-position :of-type fixnum = start
-        :with string-position :of-type fixnum = 0
-        :while (< array-position end)
-        :do (let* ((char (elt bytes array-position))
-                   (current-group (utf-8-group-size char)))
-              (when (> (+ current-group array-position) end)
-                (error 'utf-8-decoding-error
-                       :message "Unfinished character at end of byte array."))
-              (setf (char buffer string-position)
-                    (code-char (get-utf-8-character bytes current-group
-                                                    array-position)))
-              (incf string-position 1)
-              (incf array-position current-group))
-        :finally (return buffer)))
+           (type fixnum start end))
+  (let ((bytes (coerce bytes '(simple-array (unsigned-byte 8) (*)))))
+    (declare #.*optimize*)
+    (loop :with buffer = (make-string (utf-8-string-length bytes :start start
+                                                           :end end)
+                                      :element-type 'character)
+          :with array-position :of-type fixnum = start
+          :with string-position :of-type fixnum = 0
+          :while (< array-position end)
+          :do (let* ((char (elt bytes array-position))
+                     (current-group (utf-8-group-size char)))
+                (when (> (+ current-group array-position) end)
+                  (error 'utf-8-decoding-error
+                         :message "Unfinished character at end of byte array."))
+                (setf (char buffer string-position)
+                      (code-char (get-utf-8-character bytes current-group
+                                                      array-position)))
+                (incf string-position 1)
+                (incf array-position current-group))
+          :finally (return buffer))))
 
 (defun read-utf-8-string (input &key null-terminated stop-at-eof
                           (char-length -1) (byte-length -1))
@@ -280,6 +280,7 @@
 
 #+nil
 (progn
-  (pax:update-asdf-system-readmes @trivial-utf-8-manual :trivial-utf-8)
+  (pax:update-asdf-system-readmes @trivial-utf-8-manual :trivial-utf-8
+                                  :formats '(:markdown :plain))
   (pax:update-asdf-system-html-docs @trivial-utf-8-manual :trivial-utf-8
                                     :pages (pax-pages)))

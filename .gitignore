@@ -3,3 +3,4 @@
 *.fasl
 *.lib
 *.lx64fsl
+/test-out.txt
